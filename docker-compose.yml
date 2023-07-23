@@ -1,0 +1,25 @@
+﻿version: '3.9'
+services:
+  shopwebapi:
+    image: shopwebapi 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sql,1433;Database=ShopDb;User=sa;Password=Shifttechgs@1993;TrustServerCertificate=True;
+    depends_on:
+          - sql
+    command: [ "/bin/bash", "-c", "dotnet ef database update && dotnet watch run" ]
+
+  sql:
+    image: "mcr.microsoft.com/mssql/server:latest"
+    container_name: sql_serverExpress
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Shifttechgs@1993
+      - MSSQL_PID=Express
