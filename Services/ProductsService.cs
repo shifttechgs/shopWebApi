@@ -8,10 +8,10 @@ namespace WebApi.Services
     // Product Service Interface
     public interface IProductService
     {
-        Task CreateProduct(ProductDto productDto, int userId);
-        Product GetProductById(int productId, int userId);
-        void UpdateProduct(ProductDto productDto, int userId);
-        void DeleteProduct(int productId, int userId);
+        Task CreateProduct(ProductDto productDto );
+        Product GetProductById(int productId, string userId);
+        void UpdateProduct(ProductDto productDto, string userId);
+        void DeleteProduct(int productId, string userId);
     }
 
     // Product Service Implementation
@@ -26,11 +26,9 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public async Task CreateProduct(ProductDto productDto, int userId)
+        public async Task CreateProduct(ProductDto productDto)
         {
-            // Assign the userId to the product's UserId property
-            productDto.UserId = userId;
-
+           
             if (productDto.ImageFile != null && productDto.ImageFile.Length > 0)
             {
                 using (var memoryStream = new MemoryStream())
@@ -54,13 +52,13 @@ namespace WebApi.Services
             }
         }
 
-        public Product GetProductById(int productId, int userId)
+        public Product GetProductById(int productId, string userId)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == productId && p.UserId == userId);
             return product;
         }
 
-        public void UpdateProduct(ProductDto productDto, int userId)
+        public void UpdateProduct(ProductDto productDto, string userId)
         {
             var existingProduct = _context.Products
                 .FirstOrDefault(p => p.Id == productDto.Id && p.UserId == userId);
@@ -87,7 +85,7 @@ namespace WebApi.Services
             _context.SaveChanges();
         }
 
-        public void DeleteProduct(int productId, int userId)
+        public void DeleteProduct(int productId, string userId)
         {
             var existingProduct = _context.Products
                 .FirstOrDefault(p => p.Id == productId && p.UserId == userId);

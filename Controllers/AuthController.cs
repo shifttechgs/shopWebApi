@@ -1,4 +1,10 @@
+using System.Security.Claims;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ShopWebApi.DTOs;
+using ShopWebApi.Entities;
 using ShopWebApi.Helpers;
 using ShopWebApi.Models;
 using ShopWebApi.Models.Users;
@@ -9,53 +15,70 @@ using WebApi.Services;
 public class AuthController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly UserManager<User> _userManager;
+    private readonly IMapper _mapper;
+    private readonly SignInManager<User> _signInManager;
 
-    public AuthController(IUserService userService)
+    public AuthController(IUserService userService, IMapper mapper, UserManager<User> userManager,SignInManager<User> signInManager)
     {
         _userService = userService;
+        _mapper = mapper;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(AuthenticateRequest request)
-    {
-        try
-        {
-            var (token, user) = await _userService.AuthenticateUser(request);
+  
 
-            if (user != null && token != null)
-            {
-                return Ok(new { Token = token, User = user });
-            }
-            else
-            {
-                return Unauthorized(new { Error = "Invalid credentials" });
-            }
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Unauthorized(new { Error = ex.Message });
-        }
-        catch (Exception)
+    [HttpPost("register")]
+   
+    public async Task<IActionResult> Register(UserDTO userDto)
+    {
+        if (!ModelState.IsValid)
         {
             return StatusCode(500, new { Error = "An error occurred during authentication" });
         }
-    }
 
-    [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
+        var registeredUser = await _userService.RegisterUserAsync(userDto);
+        if (registeredUser == null)
+        {
+            return BadRequest(new { Error = "User registration failed." });
+        }
+
+        return Ok(registeredUser);
+    }
+    
+    
+   [HttpPost("login")]
+    
+    public async Task<IActionResult> Login(UserLoginDto loginDto)
     {
-        try
+        if (!ModelState.IsValid)
         {
-            _userService.Register(request);
-            return Ok(new { message = "Registration successful" });
+            return BadRequest(new { Error = "An error occurred during authentication" });
         }
-        catch (AppException ex)
+
+        var user = await _userManager.FindByEmailAsync(loginDto.Email);
+        if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
         {
-            return BadRequest(new { Error = ex.Message });
+            // Create ClaimsIdentity and add claims
+            var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+
+            // Sign in the user
+            await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity));
+
+            // Return the user details
+            return Ok(user);
         }
-        catch (Exception)
+        else
         {
-            return StatusCode(500, new { Error = "An error occurred during registration" });
+            return BadRequest(new { Error = "Invalid UserName or Password" });
         }
     }
+    
+   
+    
+    
+  
 }

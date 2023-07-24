@@ -8,12 +8,16 @@ C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\ShopWebApi.pdb
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Auth0.AuthenticationApi.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Auth0.Core.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\AutoMapper.dll
+C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Azure.Core.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Azure.Identity.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\DevOne.Security.Cryptography.BCrypt.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\BCrypt.Net.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Humanizer.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
@@ -23,6 +27,9 @@ C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.D
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.Identity.Client.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
 C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
@@ -81,4 +88,4 @@ C:\Projects\web_apps\ShopWebApi\obj\Debug\net7.0\refint\ShopWebApi.dll
 C:\Projects\web_apps\ShopWebApi\obj\Debug\net7.0\ShopWebApi.pdb
 C:\Projects\web_apps\ShopWebApi\obj\Debug\net7.0\ShopWebApi.genruntimeconfig.cache
 C:\Projects\web_apps\ShopWebApi\obj\Debug\net7.0\ref\ShopWebApi.dll
-C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Projects\web_apps\ShopWebApi\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.Google.dll

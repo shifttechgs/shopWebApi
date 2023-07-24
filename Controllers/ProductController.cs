@@ -20,12 +20,10 @@ namespace ShopWebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromForm] ProductDto productDto)
         {
-           
-            int userId = GetAuthenticatedUserId();
 
             try
             {
-                await _productService.CreateProduct(productDto, userId);
+                await _productService.CreateProduct(productDto);
                 return Ok(new { message = "Product created successfully." });
             }
             catch (ArgumentNullException ex)
@@ -35,11 +33,9 @@ namespace ShopWebApi.Controllers
         }
 
         [HttpGet("{productId}")]
-        public IActionResult GetProductById(int productId)
+        public IActionResult GetProductById(int productId, string userId)
         {
-           
-            int userId = GetAuthenticatedUserId();
-
+            
             var product = _productService.GetProductById(productId, userId);
             if (product == null)
                 return NotFound();
@@ -48,14 +44,14 @@ namespace ShopWebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateProduct([FromForm] ProductDto productDto)
+        public IActionResult UpdateProduct([FromForm] ProductDto productDto, string userId)
         {
             
-            int userId = GetAuthenticatedUserId();
+           
 
             try
             {
-                _productService.UpdateProduct(productDto, userId);
+                _productService.UpdateProduct(productDto,userId);
                 return Ok(new { message = "Product updated successfully." });
             }
             catch (InvalidOperationException ex)
@@ -65,14 +61,13 @@ namespace ShopWebApi.Controllers
         }
 
         [HttpDelete("{productId}")]
-        public IActionResult DeleteProduct(int productId)
+        public IActionResult DeleteProduct(int productId,string userId)
         {
             
-            int userId = GetAuthenticatedUserId();
-
+            
             try
             {
-                _productService.DeleteProduct(productId, userId);
+                _productService.DeleteProduct(productId,userId);
                 return Ok(new { message = "Product deleted successfully." });
             }
             catch (InvalidOperationException ex)
@@ -81,10 +76,8 @@ namespace ShopWebApi.Controllers
             }
         }
 
-        private int GetAuthenticatedUserId()
-        {
-           
-            return 0;
-        }
+       
+        
+       
     }
 }

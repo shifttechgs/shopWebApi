@@ -5,6 +5,7 @@ using System.Text;
 using Auth0.AuthenticationApi;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +15,9 @@ using ShopWebApi.Entities;
 using ShopWebApi.Helpers;
 using ShopWebApi.Models;
 using WebApi.Services;
+using Microsoft.AspNetCore.Builder; 
+using Microsoft.AspNetCore.Identity;
+
 
 namespace ShopWebApi
 {
@@ -28,45 +32,23 @@ namespace ShopWebApi
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            
+            
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>();
 
             // Configure AutoMapper
             builder.Services.AddAutoMapper(typeof(Program));
             ConfigureAutoMapper(builder.Services);
 
-
-            //start here
-            // Add authentication services using JwtBearer authentication
-            var domain = builder.Configuration["Auth0:Domain"];
-            var audience = builder.Configuration["Auth0:Audience"];
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = $"https://{domain}/";
-                options.Audience = audience;
-                options.TokenValidationParameters = new TokenValidationParameters
+            builder.Services.AddAuthentication()
+                .AddGoogle("google", opt =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
-                    {
-                        var json = new WebClient().DownloadString($"{options.Authority}.well-known/jwks.json");
-                        var keys = new JsonWebKeySet(json).Keys;
-                        return (IEnumerable<SecurityKey>)keys;
-                    },
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidIssuer = $"https://{domain}/",
-                    ValidAudience = audience,
-                    NameClaimType = ClaimTypes.NameIdentifier
-                };
-            });
-
-            builder.Services.AddAuthorization();
-//end here
-
+                    var googleAuth = builder.Configuration.GetSection("Authentication:Google");
+                    opt.ClientId = googleAuth["ClientId"];
+                    opt.ClientSecret = googleAuth["ClientSecret"];
+                    opt.SignInScheme = IdentityConstants.ExternalScheme;
+                });
 
             builder.Services.AddControllers();
             builder.Services.AddScoped<IUserService, UserService>();
