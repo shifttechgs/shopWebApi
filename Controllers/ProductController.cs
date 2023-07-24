@@ -5,7 +5,7 @@ using WebApi.Services;
 
 namespace ShopWebApi.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/products")]
     public class ProductController : ControllerBase
@@ -20,7 +20,7 @@ namespace ShopWebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromForm] ProductDto productDto)
         {
-            // Get the authenticated user ID (you can implement this based on your authentication method)
+           
             int userId = GetAuthenticatedUserId();
 
             try
@@ -37,7 +37,7 @@ namespace ShopWebApi.Controllers
         [HttpGet("{productId}")]
         public IActionResult GetProductById(int productId)
         {
-            // Get the authenticated user ID (you can implement this based on your authentication method)
+           
             int userId = GetAuthenticatedUserId();
 
             var product = _productService.GetProductById(productId, userId);
@@ -50,7 +50,7 @@ namespace ShopWebApi.Controllers
         [HttpPut]
         public IActionResult UpdateProduct([FromForm] ProductDto productDto)
         {
-            // Get the authenticated user ID (you can implement this based on your authentication method)
+            
             int userId = GetAuthenticatedUserId();
 
             try
@@ -67,7 +67,7 @@ namespace ShopWebApi.Controllers
         [HttpDelete("{productId}")]
         public IActionResult DeleteProduct(int productId)
         {
-            // Get the authenticated user ID (you can implement this based on your authentication method)
+            
             int userId = GetAuthenticatedUserId();
 
             try
